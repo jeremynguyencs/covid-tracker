@@ -1,0 +1,23 @@
+.footer {
+  border-top: 0.1pt solid #a0aec0;
+  width: 100%;
+  margin-top: -1.25rem;
+}
+
+.text {
+  font-size: 11pt;
+  text-align: center;
+  color: #4a5568;
+  padding-top: 5px;
+}
+
+a {
+  color: #43aaa8;
+  text-decoration: none;
+  border-bottom: 1px solid #43aaa8;
+}
+
+a:hover {
+  color: white;
+  background-color: #43aaa8;
+}

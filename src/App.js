@@ -1,40 +1,54 @@
-import React from 'react';
+import React from "react";
 
-import { Cards, Chart, CountryPicker} from './components';
-import styles from './App.module.css';
-import { fetchData } from './api';
+import { Cards, Chart, CountryPicker, Navbar, Footer } from "./components";
+import styles from "./App.module.css";
+import { fetchData } from "./api";
 
 class App extends React.Component {
-    state = {
-        data: {},
-        country: '',
-    }
+  state = {
+    data: {},
+    country: "",
+  };
 
+  async componentDidMount() {
+    const fetchedData = await fetchData();
+    this.setState({ data: fetchedData });
+  }
 
-    async componentDidMount(){
-        const fetchedData = await fetchData();
+  handleCountryChange = async (country) => {
+    const fetchedData = await fetchData(country);
+    this.setState({ data: fetchedData, country: country });
+  };
 
-        this.setState( { data: fetchedData});
-    }
+  render() {
+    const { data, country } = this.state;
 
-    handleCountryChange = async (country) => {
-        const fetchedData = await fetchData(country);
+    return (
+      <div className={styles.container}>
+        <Navbar />
 
-        this.setState({ data: fetchedData, country: country });
-    }
+        <div className={styles.panel}>
+          <div className={styles.cards}>
+            <Cards data={data} />
+          </div>
+        </div>
 
-    render() {
-        const { data, country } = this.state;
+        <div className={styles.graphCard}>
+          <div className={styles.title}>
+            <h1> Graph </h1>
+          </div>
+          <div className={styles.countryPicker}>
+            <CountryPicker handleCountryChange={this.handleCountryChange} />{" "}
+          </div>
+          <div className={styles.graph}>
+            <Chart data={data} country={country} />
+          </div>
+        </div>
 
-        return (
-            <div className={styles.container}>
-                <h1>Covid-19 Tracker</h1>
-                <Cards data={data} />
-                <CountryPicker handleCountryChange={this.handleCountryChange} />
-                <Chart data={data} country={country} />
-            </div>
-        );
-    }
+        <Footer />
+      </div>
+    );
+  }
 }
 
 export default App;
